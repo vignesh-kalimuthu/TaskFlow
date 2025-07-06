@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import userRouter from "./routes/userRoute.js";
+import taskRouter from "./routes/taskRoute.js";
 import { connectDB } from "./config/db.js";
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,11 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
-app.use("/api/user", userRouter);
-
-app.get("/", (req, res) => {
-  res.send("API working");
-});
+app.use(`/${process.env.APP_VERSION}/user`, userRouter);
+app.use(`/${process.env.APP_VERSION}/task`, taskRouter);
 
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
